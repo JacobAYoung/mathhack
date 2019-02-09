@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">MathHack</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="names">
+        <item>Emanuel</item>
+        <item>Jake</item>
+        <item>George</item>
+        <item>Sarah</item>
+    </string-array>
+
+    <string-array name="descriptions">
+        <item>Learn Addition</item>
+        <item>Learn Subtraction</item>
+        <item>Learn Multplication</item>
+        <item>Learn Division</item>
+    </string-array>
 </resources>
