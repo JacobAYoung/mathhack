@@ -1,5 +1,6 @@
 package com.example.mathhack;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -13,6 +14,13 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.example.mathhack.Addition;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,14 +56,74 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+
+        Button btn = findViewById(R.id.button);
+        final Addition add = new Addition(1, 10);
+        TextView textView = findViewById(R.id.simpleTextView);
+        textView.setText(add.GetEquation()); //set text for text
+
+
+
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                //Log.i("MathHack", "Button doing something");
+                //Toast.makeText(getApplicationContext(), "Works!", Toast.LENGTH_SHORT).show();
+
+                //Textbox input
+                EditText answer = findViewById(R.id.answer);
+                String content = answer.getText().toString(); //gets you the contents of edit text
+
+                //Clear input screen
+                InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                mgr.hideSoftInputFromWindow(answer.getWindowToken(), 0);
+
+                int userAnswer = Integer.parseInt(content);
+
+//                ImageView img= findViewById(R.id.imageview1);
+//                img.setVisibility(View.VISIBLE);
+
+                //System.out.println(add.CheckAnswer(userAnswer));
+
+                int returnCode = -1;
+
+                int realAnswer = add.GetAnswer();
+
+                if (add.CheckAnswer(userAnswer)) {
+                    returnCode = 0;
+                } else if (userAnswer > realAnswer) {
+                    if ((userAnswer - 1) == realAnswer)
+                    {
+                        returnCode = 1;
+                    } else if ((userAnswer - 4) <= realAnswer && (userAnswer - 1) >= realAnswer) {
+                        returnCode = 2;
+                    } else {
+                        returnCode = 3;
+                    }
+                } else if (userAnswer < realAnswer) {
+                    if ((userAnswer + 1) == realAnswer) {
+                        returnCode = 1;
+                    } else if ((userAnswer + 4) >= realAnswer && (userAnswer + 1) <= realAnswer) {
+                        returnCode = 4;
+                    } else {
+                        returnCode = 5;
+                    }
+                }
+
+                TextView textView1 = findViewById(R.id.simpleTextView1);
+                textView1.setVisibility(View.VISIBLE);
+                textView1.setText(add.GetReturnMessage(returnCode)); //set text for text view
             }
         });
+
     }
 
     @Override
